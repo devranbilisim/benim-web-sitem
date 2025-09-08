@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Gönderilen Mesajlar</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Hemen ufak stil ekleyelim */
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #333;
+      color: white;
+      padding: 1rem 2rem;
+    }
+    header a {
+      color: #ddd;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    main {
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+    .mesaj-kart {
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    .sil-buton {
+      margin-top: 1rem;
+      background-color: #ff4d4d;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .sil-buton:hover {
+      background-color: #cc0000;
+    }
+    .cevap-form input {
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 0.5rem;
+      width: 70%;
+    }
+    .cevap-form button {
+      background-color: #333;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      margin-left: 0.5rem;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+    }
+    .cevap-goster {
+      margin-top: 1rem;
+      padding: 0.5rem;
+      background: #e8f5e9;
+      border-left: 4px solid green;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📬 Gönderilen Mesajlar</h1>
+    <p><a href="index.html">⬅️ Geri Dön</a></p>
+  </header>
+
+  <main id="mesajListesi"></main>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    let mesajlar = JSON.parse(localStorage.getItem("mesajlar")) || [];
+    const liste = document.getElementById("mesajListesi");
+
+    if (mesajlar.length === 0) {
+      liste.innerHTML = "<p>Henüz mesaj yok.</p>";
+      return;
+    }
+
+    mesajlar.reverse().forEach((m, i) => {
+      const gercekIndex = mesajlar.length - 1 - i;
+
+      const kart = document.createElement("div");
+      kart.style.border = "1px solid #ccc";
+      kart.style.padding = "1rem";
+      kart.style.marginBottom = "1rem";
+      kart.style.borderRadius = "5px";
+      kart.style.background = "#fff";
+
+      kart.innerHTML = `
+        <strong>${m.isim}</strong> <em>(${m.tarih})</em>
+        <p>${m.mesaj}</p>
+        ${m.cevap ? `<div style="margin-top:1rem; padding:0.5rem; background:#e8f5e9; border-left:4px solid green;">
+          <strong>Cevap:</strong> ${m.cevap}
+        </div>` : `
+          <form class="cevap-form" data-id="${gercekIndex}" style="margin-top:1rem;">
+            <input type="text" name="cevap" placeholder="Cevabınızı yazın..." required style="width:70%; padding:0.5rem;" />
+            <button type="submit" style="padding:0.5rem;">Gönder</button>
+          </form>
+        `}
+        <button class="sil-buton" data-id="${gercekIndex}" style="margin-top:1rem;">🗑️ Sil</button>
+      `;
+
+      liste.appendChild(kart);
+    });
+
+    // Silme
+    liste.addEventListener("click", (e) => {
+      if (e.target.classList.contains("sil-buton")) {
+        const id = parseInt(e.target.getAttribute("data-id"));
+        let mesajlar = JSON.parse(localStorage.getItem("mesajlar")) || [];
+        mesajlar.splice(id, 1);
+        localStorage.setItem("mesajlar", JSON.stringify(mesajlar));
+        location.reload();
+      }
+    });
+
+    // Cevap ekleme
+    liste.addEventListener("submit", (e) => {
+      if (e.target.classList.contains("cevap-form")) {
+        e.preventDefault();
+        const id = parseInt(e.target.getAttribute("data-id"));
+        const cevap = e.target.cevap.value;
+
+        let mesajlar = JSON.parse(localStorage.getItem("mesajlar")) || [];
+        mesajlar[id].cevap = cevap;
+
+        localStorage.setItem("mesajlar", JSON.stringify(mesajlar));
+        location.reload();
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
+<div style="max-width:700px; margin: 2rem auto; padding: 1rem; display: flex; gap: 1rem; align-items: center;">
+  <input id="aramaInput" type="text" placeholder="Mesajlarda ara..." style="flex: 1; padding: 0.5rem; font-size: 1rem;" />
+  <button id="siralaBtn" style="padding: 0.5rem 1rem; cursor: pointer;">Yeni → Eski</button>
+</div>
+
+<!-- Arama alanını main içinin başına ekle -->
+<div style="max-width:700px; margin: 2rem auto; padding: 1rem;">
+  <input id="aramaInput" type="text" placeholder="Mesajlarda ara..." style="width: 100%; padding: 0.5rem; font-size: 1rem;"/>
+</div>

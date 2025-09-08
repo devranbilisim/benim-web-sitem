@@ -1,0 +1,210 @@
+:root {
+  --ana-arka-plan: #ffffff;       /* Arka plan beyaz */
+  --ana-yazi-rengi: #000000;      /* Ana yazı siyah */
+  --baslik-rengi: #004d40;        /* Başlıklar için koyu yeşil */
+  --link-rengi: #00796b;          /* Linkler için turkuaz */
+  --buton-arka-plan: #00796b;     /* Buton arka planı */
+  --buton-yazi-rengi: #ffffff;    /* Buton yazısı beyaz */
+}
+
+/* Body ve genel metin */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  background-color: var(--ana-arka-plan);
+  color: var(--ana-yazi-rengi);
+}
+
+/* Scrollbar stili (Webkit destekli tarayıcılar için) */
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--ana-arka-plan);
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--buton-arka-plan);
+  border-radius: 10px;
+}
+
+/* Header */
+header {
+  background: var(--buton-arka-plan);
+  color: var(--buton-yazi-rengi);
+  padding: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 0 0 20px 20px;
+}
+
+/* Navigasyon */
+nav {
+  background-color: #004d40;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+nav a {
+  color: var(--buton-yazi-rengi);
+  text-decoration: none;
+  margin: 0 1rem;
+  font-weight: 600;
+  padding-bottom: 3px;
+  position: relative;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background: #a7ffeb;
+  transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* Section */
+section {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  margin: 1rem;
+  border-radius: 5px;
+  color: var(--ana-yazi-rengi);
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+/* Kart sınıfı - Hakkımda ve İletişim bölümleri için */
+.kart {
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 1rem auto;
+  max-width: 600px;
+  transition: box-shadow 0.3s ease;
+}
+
+.kart:hover {
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  background-color: #004d40;
+  color: var(--buton-yazi-rengi);
+  font-weight: 500;
+  border-radius: 20px 20px 0 0;
+  margin-top: 2rem;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Profil Fotoğrafı */
+.profil-foto {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+  object-fit: cover;
+  border: 3px solid var(--buton-yazi-rengi);
+}
+
+/* Sosyal linkler */
+.sosyal-linkler a {
+  color: var(--buton-yazi-rengi);
+  margin: 0 0.5rem;
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+/* Form girişleri */
+form input, form textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: inherit;
+  color: var(--ana-yazi-rengi);
+  background-color: #fff;
+}
+
+/* Form butonları */
+form button {
+  background-color: var(--buton-arka-plan);
+  color: var(--buton-yazi-rengi);
+  border: none;
+  padding: 0.7rem 1.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #004d40;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  body {
+    font-size: 16px;
+  }
+
+  header, section {
+    padding: 1rem;
+  }
+
+  nav a {
+    display: block;
+    margin: 0.5rem 0;
+  }
+
+  .profil-foto {
+    width: 100px;
+    height: 100px;
+  }
+
+  .kart {
+    max-width: 90%;
+    padding: 1rem;
+  }
+}
+
+/* Başlıklar */
+h1, h2 {
+  color: var(--baslik-rengi);
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* Buton stili gelişmiş */
+button {
+  background-color: var(--buton-arka-plan);
+  color: var(--buton-yazi-rengi);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 121, 107, 0.4);
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+  box-shadow: 0 6px 12px rgba(0, 121, 107, 0.6);
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 6px rgba(0, 121, 107, 0.3);
+}

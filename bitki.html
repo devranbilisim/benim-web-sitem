@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sanal Bitki Bakımı</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+      background: #e0f7fa;
+    }
+    #bitki {
+      font-size: 5rem;
+      margin: 2rem 0;
+      transition: transform 0.3s ease;
+    }
+    #durum {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 0.8rem 1.5rem;
+      font-size: 1rem;
+      background: #00796b;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background: #004d40;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌿 Sanal Bitki Bakımı</h1>
+  <div id="bitki">🌵</div>
+  <div id="durum">Durum: Sağlıklı</div>
+  <button id="sulaBtn">💧 Bitkiyi Sulayın</button>
+
+  <script>
+    const bitkiEl = document.getElementById("bitki");
+    const durumEl = document.getElementById("durum");
+    const sulaBtn = document.getElementById("sulaBtn");
+
+    // Bitki su seviyesi 0 - 5 arasında olacak
+    // 0 = Çok susuz (solmuş), 5 = Çok sağlıklı
+    let suSeviyesi = parseInt(localStorage.getItem("suSeviyesi")) || 5;
+    let sonSulamaZamani = parseInt(localStorage.getItem("sonSulamaZamani")) || Date.now();
+
+    // Sayfa her açıldığında zaman farkını hesapla ve su seviyesini düşür
+    const MILLISEKUNDE_BIR_GUN = 1000 * 60 * 60 * 24;
+
+    function guncelleDurum() {
+      const simdi = Date.now();
+      const fark = simdi - sonSulamaZamani;
+      const gunFarki = Math.floor(fark / MILLISEKUNDE_BIR_GUN);
+
+      suSeviyesi = Math.max(0, 5 - gunFarki); // Gün başına 1 azalsın
+      localStorage.setItem("suSeviyesi", suSeviyesi);
+      
+      // Duruma göre emoji ve yazı ayarla
+      if (suSeviyesi >= 4) {
+        bitkiEl.textContent = "🌵"; // Sağlıklı kaktüs
+        durumEl.textContent = "Durum: Sağlıklı ve mutlu 🌞";
+        bitkiEl.style.transform = "scale(1)";
+      } else if (suSeviyesi >= 2) {
+        bitkiEl.textContent = "🌿"; // Orta seviyede
+        durumEl.textContent = "Durum: Susuz kaldı, biraz sulamaya ihtiyacı var 💧";
+        bitkiEl.style.transform = "scale(0.9)";
+      } else if (suSeviyesi >= 1) {
+        bitkiEl.textContent = "🍂"; // Zayıflamış, solgun yapraklar
+        durumEl.textContent = "Durum: Çok susuz, acilen su ver! 🚨";
+        bitkiEl.style.transform = "scale(0.8)";
+      } else {
+        bitkiEl.textContent = "💀"; // Bitki öldü 😢
+        durumEl.textContent = "Durum: Bitkin soldu... 😞";
+        bitkiEl.style.transform = "scale(0.7)";
+      }
+    }
+
+    sulaBtn.addEventListener("click", () => {
+      suSeviyesi = 5;
+      sonSulamaZamani = Date.now();
+      localStorage.setItem("suSeviyesi", suSeviyesi);
+      localStorage.setItem("sonSulamaZamani", sonSulamaZamani);
+      guncelleDurum();
+      alert("Bitki sulandı! 🌊");
+    });
+
+    guncelleDurum();
+  </script>
+</body>
+</html>
